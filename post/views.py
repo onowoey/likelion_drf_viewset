@@ -57,12 +57,20 @@ class PostViewSet(viewsets.ModelViewSet):
             post.tags.add(tag)
         post.save()
         
-    @action(detail=True, methods=["get"], url_path="like")
+    @action(methods=["get"], url_path="likes", detail=True)
+    #detail 이 true 라서 url 에 pk 반영 -> posts/3/likes 이런느낌
     def like(self, request, pk=None):
         post = self.get_object()
         post.likes += 1
         post.save(update_fields=["likes"])
         return Response({"likes": post.likes})
+    
+    @action(methods=["get"], url_path="top3like", detail=False)
+    #얘는 detail 이 false 라서 url에 pk 반영 안됨 ->/posts/top3like
+    def top_liked(self, request):
+        top_posts = Post.objects.order_by("-likes")[:3]
+        serializer = self.get_serializer(top_posts, many=True)
+        return Response(serializer.data)
         
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
