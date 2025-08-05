@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Post, Comment  # * 대신 명시적으로 import
+from .models import Post, Comment, Tag  # * 대신 명시적으로 import
 
 class PostSerializer(serializers.ModelSerializer): #Post 글 자세히 보기
     id = serializers.CharField(read_only=True)
@@ -26,8 +26,7 @@ class PostSerializer(serializers.ModelSerializer): #Post 글 자세히 보기
         read_only_fields = [
             'id',
             'created_at',
-            'updated_at',
-            'comments'
+            'comments',
             ]
     
     image = serializers.ImageField(use_url=True, required=False)
@@ -46,11 +45,11 @@ class PostListSerializer(serializers.ModelSerializer):
         return [t.name for t in tag]
 
     class Meta:
-        model = Movie
+        model = Post
         #fields = '__all__' #실제 모델에 없는 필드라도 커스터마이징한 후 all 로 하면 다 뜸
         # fields = '__all__'
-        fields = ['id', 'name', 'created_at', 'updated_at', 'image', 'comments_cnt', 'tags']
-        read_only_fields = ['id', 'created_at', 'updated_at', 'comments_cnt']
+        fields = ['id', 'name', 'created_at', 'image', 'comments_cnt', 'tags']
+        read_only_fields = ['id', 'created_at', 'comments_cnt']
     image = serializers.ImageField(use_url=True, required=False)
 
 class CommentSerializer(serializers.ModelSerializer):
