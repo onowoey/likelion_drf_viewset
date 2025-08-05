@@ -76,10 +76,10 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     
-    def get_permissions(self):
-        if self.action in ["update", "destroy", "partial_update"]:
-            return [IsOwnerReadOnly()]
-        return []
+    #def get_permissions(self):
+        #if self.action in ["update", "destroy", "partial_update"]:
+            #return [IsOwnerReadOnly()]
+        #return []
     
 class PostCommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer

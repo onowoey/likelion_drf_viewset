@@ -27,7 +27,7 @@ class PostSerializer(serializers.ModelSerializer): #Post 글 자세히 보기
             'id',
             'created_at',
             'comments',
-            'like'
+            'likes'
             ]
     
     image = serializers.ImageField(use_url=True, required=False)
