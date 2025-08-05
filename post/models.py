@@ -3,7 +3,10 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
-
+class Tag(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=50)
+    
 def image_upload_path(instance, filename):
     return f'{instance.pk}/{filename}'
 
