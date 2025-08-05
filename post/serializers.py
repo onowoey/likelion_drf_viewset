@@ -49,7 +49,7 @@ class PostListSerializer(serializers.ModelSerializer):
         model = Post
         #fields = '__all__' #실제 모델에 없는 필드라도 커스터마이징한 후 all 로 하면 다 뜸
         # fields = '__all__'
-        fields = ['id', 'name', 'created_at', 'image', 'comments_cnt', 'tags']
+        fields = ['id', 'title', 'created_at', 'image', 'comments_cnt', 'tags']
         read_only_fields = ['id', 'created_at', 'comments_cnt']
     image = serializers.ImageField(use_url=True, required=False)
 
