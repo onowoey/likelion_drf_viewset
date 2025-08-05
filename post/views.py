@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 import re
 from .permissions import IsOwnerReadOnly
+from rest_framework.decorators import action
 
 
 # Create your views here.
@@ -99,3 +100,10 @@ class TagViewSet(viewsets.ModelViewSet):
         posts = Post.objects.filter(tags=tags)
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
+    
+@action(methods=['GET'], detail=True)
+def like(self, request, pk=None):
+    post = self.get_object()
+    post.like +=1
+    post.save(update_fields=["likes"])
+    return Response()
