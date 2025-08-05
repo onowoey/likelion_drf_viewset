@@ -27,5 +27,4 @@ urlpatterns = [
     path("", include(comment_router.urls)),
     path("posts/<int:post_id>/", include(post_comment_router.urls)),
     path("", include(tag_router.urls)),
-    path("likes/", include(post_router.urls)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

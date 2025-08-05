@@ -57,6 +57,13 @@ class PostViewSet(viewsets.ModelViewSet):
             post.tags.add(tag)
         post.save()
         
+    @action(detail=True, methods=["get"], url_path="like")
+    def like(self, request, pk=None):
+        post = self.get_object()
+        post.likes += 1
+        post.save(update_fields=["likes"])
+        return Response({"likes": post.likes})
+        
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -100,10 +107,3 @@ class TagViewSet(viewsets.ModelViewSet):
         posts = Post.objects.filter(tags=tags)
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
-    
-@action(methods=['GET'], detail=True)
-def like(self, request, pk=None):
-    post = self.get_object()
-    post.like +=1
-    post.save(update_fields=["likes"])
-    return Response()
