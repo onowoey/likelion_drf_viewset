@@ -6,8 +6,9 @@ from .serializers import PostListSerializer, PostSerializer, CommentSerializer, 
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, IsAdminUser, IsOwnerOrReadOnly
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 import re
+from .permissions import IsOwnerReadOnly
 
 
 # Create your views here.
@@ -23,7 +24,7 @@ class PostViewSet(viewsets.ModelViewSet):
     
     def get_permissions(self): #updatem destroy, partial_update 함수 실행시에는 꼭 본인만 가능하게 해야함
         if self.action in ["update", "destroy", "partial_update"]:
-            return [IsOwnerOrReadOnly()] #본인만 수정이나 삭제 가능
+            return [IsOwnerReadOnly()] #본인만 수정이나 삭제 가능
         return []
     
     def create(self, request): #self = 해당 객체
@@ -61,10 +62,10 @@ class CommentViewSet(viewsets.ModelViewSet):
     
     def get_permissions(self):
         if self.action in ["update", "destroy", "partial_update"]:
-            return [IsOwnerOrReadOnly()]
+            return [IsOwnerReadOnly()]
         return []
     
-class PostCommnetViewSet(viewsets.ModelViewSet):
+class PostCommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticated]
     
